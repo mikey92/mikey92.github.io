@@ -73,6 +73,15 @@ for (const f of files) {
 assert.equal(titles.size, files.length);
 assert.equal(descriptions.size, files.length);
 assert.equal(urls.size, files.length);
+for (const f of files) {
+  const graph = JSON.parse(read('screenshot-cleaner/' + f).match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+  const crumb = graph.find(x => x['@type'] === 'BreadcrumbList');
+  if (crumb) assert.doesNotMatch(crumb.itemListElement[1].name, /[—|]/, `${f}: short breadcrumb name`);
+}
+const llms = read('screenshot-cleaner/llms.txt');
+assert.match(llms, /^# Offshot - Screenshot Cleaner\n/);
+for (const u of urls) assert.ok(llms.includes(`(${u})`), `llms.txt lists ${u}`);
+assert.ok(llms.includes(STORE));
 const sitemap = read('screenshot-cleaner/sitemap.xml');
 const mapped = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
 assert.deepEqual([...urls].sort(), mapped.sort());

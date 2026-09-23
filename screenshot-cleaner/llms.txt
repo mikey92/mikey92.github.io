@@ -1,0 +1,30 @@
+# Offshot - Screenshot Cleaner
+
+> Offshot is an iPhone screenshot cleaner and organizer (iOS 17.0 or later, U.S. App Store, English). It organizes screenshots with folders, tags and notes, searches text recognized on device, and deletes only screenshots the user selects and confirms through Photos. Free download; optional one-time Lifetime Ad Removal purchase, not a subscription. No Offshot account is required. Current version: 1.1.1.
+
+## Pages
+
+- [Offshot — iPhone Screenshot Cleaner & Organizer](https://mikey92.github.io/screenshot-cleaner/): Clean up iPhone screenshots with Offshot. Organize with folders, tags and notes, search text on device, and review screenshots before deleting. Free download.
+- [How to Delete Screenshots on iPhone | Offshot](https://mikey92.github.io/screenshot-cleaner/delete-screenshots-iphone.html): A step-by-step guide to reviewing and deleting iPhone screenshots with Offshot, including limited Photos access, iCloud sync, and Recently Deleted recovery.
+- [Organize & Search Screenshot Text on iPhone | Offshot](https://mikey92.github.io/screenshot-cleaner/search-screenshots-iphone.html): Find saved screenshots with Offshot’s on-device text search. Organize iPhone screenshots in folders with tags and notes, and learn what recognition can miss.
+- [Offshot FAQ — Screenshot Cleanup, Search & Privacy](https://mikey92.github.io/screenshot-cleaner/faq.html): Answers about Offshot for iPhone: free cleanup, one-time ad removal, screenshot text search, Photos permissions, iCloud deletion, recovery and privacy.
+- [Offshot Support — Photos Access, Purchases & Help](https://mikey92.github.io/screenshot-cleaner/support.html): Get help with Offshot: missing screenshots, Photos permissions, text search, deleting and recovering images, restoring ad removal, and reporting a problem.
+- [Offshot Privacy Policy — Screenshots, Ads & Usage Data](https://mikey92.github.io/screenshot-cleaner/privacy.html): How Offshot handles screenshot content, on-device search, optional usage reporting, Google ads, Apple purchases and privacy controls.
+
+## App Store
+
+- [Offshot on the App Store](https://apps.apple.com/us/app/offshot-screenshot-cleaner/id6812286993)
+
+## Key facts
+
+- What is Offshot? Offshot is a screenshot cleaner and organizer for iPhone. It helps you keep useful screenshots in folders, add tags and notes, find recognized text, and review selected screenshots before deleting them from Photos.
+- Is Offshot free, or does it require a subscription? Offshot is free to download. Cleanup and organization do not require a purchase. The free app may show an ad after a successful deletion. Lifetime Ad Removal is an optional one-time purchase, not a subscription. The App Store shows the current price.
+- Which devices and countries are supported? Offshot is available on the United States App Store for iPhone with iOS 17.0 or later. The app interface is in English. Check the App Store listing for current compatibility and availability.
+- Can I delete multiple screenshots at once? Yes. Select the screenshots you want to remove, review the selection, and confirm the Photos deletion request. Offshot does not automatically choose which screenshots to delete.
+- Can I search the text inside a screenshot? Yes. Offshot can search recognized text on your device. Text recognition can miss small, blurred, stylized or otherwise unreadable text. A matching word must be recognized before it can appear in text-search results.
+- Are my screenshots uploaded to an AI service? Offshot does not send screenshot images, recognized text or search content to its analytics service or advertising providers. Recognized-text search runs on device. Ads, purchases and optional usage reporting use network services; Offshot is not a completely offline app. Apple Photos and iCloud follow your Apple settings.
+- Does deleting a screenshot also remove it from iCloud Photos? Deleting through Offshot changes your Photos library. With iCloud Photos enabled, deletion may sync to other devices using that library. Review your selection before confirming. Removing an item from Offshot is not a separate way to keep a copy in Photos.
+- Can I recover a deleted screenshot? Check Recently Deleted in Apple Photos. Deleted items can usually be recovered for 30 days, with exceptions. Offshot does not provide a separate undo and does not permanently empty Recently Deleted.
+- Do I need to create an account? No Offshot account is required. Apple may ask you to authenticate your Apple Account for a purchase. The public GitHub support tracker uses its own account system.
+- Does an organization backup include my screenshots? No. Export and restore through Files cover organization metadata such as folders, tags and notes. Original images and recognized-text indexes are not included. Keep a separate backup of the original photos using your preferred photo-backup method.
+- How do I restore Lifetime Ad Removal? Open Offshot Settings and choose Restore Purchases while using the Apple Account that made the purchase. If the App Store is temporarily unavailable, try again later. Restoring ad removal does not change the separate usage-sharing setting.

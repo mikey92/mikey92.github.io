@@ -7,6 +7,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = 'https://mikey92.github.io/screenshot-cleaner/';
 const STORE = 'https://apps.apple.com/us/app/offshot-screenshot-cleaner/id6812286993';
 const UPDATED = '2026-09-23';
+// Current public App Store version; keep in sync after each approved release.
+const VERSION = '1.1.1';
 // Public ownership token issued for this exact URL-prefix property in Search Console.
 const GOOGLE_VERIFICATION = '_6Eghz8g6QdLdFuqAr3pnvpvAC4uWZ2wjczGvd5_r-g';
 const out = resolve(ROOT, 'screenshot-cleaner');
@@ -19,16 +21,16 @@ const footer = `<footer><p><strong>Offshot</strong> · Screenshot cleaner and or
 const app = {
   '@type':'SoftwareApplication','@id':BASE+'#app',name:'Offshot - Screenshot Cleaner',
   url:BASE,description:'An iPhone screenshot cleaner and organizer with folders, tags, notes, on-device text search, and deletion review.',
-  applicationCategory:'UtilitiesApplication',operatingSystem:'iOS 17.0 or later',softwareVersion:'1.1',
+  applicationCategory:'UtilitiesApplication',operatingSystem:'iOS 17.0 or later',softwareVersion:VERSION,
   image:BASE+'icon.png',downloadUrl:STORE,installUrl:STORE,sameAs:[STORE],
-  author:{'@type':'Person',name:'Heeseong Kim'},
+  author:{'@type':'Person',name:'Heeseong Kim'},publisher:{'@type':'Person',name:'Heeseong Kim'},inLanguage:'en-US',
   offers:{'@type':'Offer',price:'0',priceCurrency:'USD',url:STORE,description:'Free download. Optional one-time Lifetime Ad Removal purchase; see the App Store for the current price.',eligibleRegion:{'@type':'Country',name:'United States'}},
   featureList:['Review and delete selected screenshots','Folders, tags and notes','On-device recognized-text search','Share images into Offshot','Export and restore organization metadata']
 };
 const questions = [
   ['What is Offshot?', 'Offshot is a screenshot cleaner and organizer for iPhone. It helps you keep useful screenshots in folders, add tags and notes, find recognized text, and review selected screenshots before deleting them from Photos.'],
   ['Is Offshot free, or does it require a subscription?', 'Offshot is free to download. Cleanup and organization do not require a purchase. The free app may show an ad after a successful deletion. Lifetime Ad Removal is an optional one-time purchase, not a subscription. The App Store shows the current price.'],
-  ['Which devices and countries are supported?', 'Offshot 1.1 is available on the United States App Store for iPhone with iOS 17.0 or later. The app interface is in English. Check the App Store listing for current compatibility and availability.'],
+  ['Which devices and countries are supported?', 'Offshot is available on the United States App Store for iPhone with iOS 17.0 or later. The app interface is in English. Check the App Store listing for current compatibility and availability.'],
   ['Can I delete multiple screenshots at once?', 'Yes. Select the screenshots you want to remove, review the selection, and confirm the Photos deletion request. Offshot does not automatically choose which screenshots to delete.'],
   ['Can I search the text inside a screenshot?', 'Yes. Offshot can search recognized text on your device. Text recognition can miss small, blurred, stylized or otherwise unreadable text. A matching word must be recognized before it can appear in text-search results.'],
   ['Are my screenshots uploaded to an AI service?', 'Offshot does not send screenshot images, recognized text or search content to its analytics service or advertising providers. Recognized-text search runs on device. Ads, purchases and optional usage reporting use network services; Offshot is not a completely offline app. Apple Photos and iCloud follow your Apple settings.'],
@@ -59,7 +61,7 @@ const pages = [
     <h2 id="access">Why are some screenshots missing?</h2><p>Check Photos access in iOS Settings. If you chose limited access, Offshot can only work with the images you allowed. Adjust the selection or permission if the screenshot you need is outside that set. Text-search results also depend on what text the app can recognize.</p>
     <h2 id="recovery">What happens to iCloud copies and deleted images?</h2><p>With iCloud Photos, deletion may sync to other devices using the same library. Do not use deletion as a way to hide a screenshot only from Offshot while keeping it elsewhere in that library.</p><p>Apple Photos usually keeps deleted items in Recently Deleted for 30 days, with exceptions. Offshot has no separate undo and does not permanently clear that album. Check that an item can be recovered before relying on recovery. <a href="https://support.apple.com/en-us/104967">Apple’s deletion and recovery instructions</a> explain the Photos behavior.</p>
     <h2>Will deleting screenshots free storage immediately?</h2><p>Removing screenshots reduces what is in your main library, but Offshot does not promise a fixed amount of reclaimed space or immediate storage changes. Photos may retain deleted items in Recently Deleted, and device storage reports can take time to update.</p>
-    <h2>Does cleanup require a purchase?</h2><p>No. The free app supports cleanup and organization. An ad may appear after a successful deletion; if an ad is unavailable, deletion still completes. Lifetime Ad Removal is optional and is paid once, not monthly.</p><p>${cta}</p><p class="small">For Offshot 1.1 on iPhone. <a href="support.html">Get support</a> · <a href="faq.html">More questions</a></p></article>`
+    <h2>Does cleanup require a purchase?</h2><p>No. The free app supports cleanup and organization. An ad may appear after a successful deletion; if an ad is unavailable, deletion still completes. Lifetime Ad Removal is optional and is paid once, not monthly.</p><p>${cta}</p><p class="small">For Offshot ${VERSION} on iPhone. <a href="support.html">Get support</a> · <a href="faq.html">More questions</a></p></article>`
   },
   {
     file:'search-screenshots-iphone.html',title:'Organize & Search Screenshot Text on iPhone | Offshot',
@@ -70,7 +72,7 @@ const pages = [
     <h2>Why does a search miss my screenshot?</h2><p>A word must be recognized before a text search can find it. Small type, blurry images, stylized lettering and hard-to-read layouts can cause missing or incorrect text. Try a different distinctive word and check whether Offshot has access to the image. Limited Photos access can keep an image outside the app’s available set.</p>
     <h2>Use folders for projects and tags for topics</h2><p>A simple system is easier to keep using than dozens of folders. You might use a folder for a current trip or purchase, then add a tag such as “receipt” or “idea” when it helps. A note can capture why you saved something or what you want to do next.</p><p>These are examples of using Offshot’s organization features, not automatic classifications. Mark items to review later when you do not want to make a decision right away.</p>
     <h2>Know what an organization backup includes</h2><p>Export and restore through Files cover organization metadata, including folders, tags and notes. They do not include original screenshot images or recognized-text indexes. Keep a separate photo backup if you need to preserve the actual images.</p>
-    <h2>Found what you no longer need?</h2><p><a href="delete-screenshots-iphone.html">Review the cleanup guide</a> before deleting. A confirmed deletion changes your Photos library and may sync through iCloud Photos.</p><p>${cta}</p><p class="small">For Offshot 1.1 on iPhone. <a href="faq.html">Read the FAQ</a> · <a href="support.html">Get help</a></p></article>`
+    <h2>Found what you no longer need?</h2><p><a href="delete-screenshots-iphone.html">Review the cleanup guide</a> before deleting. A confirmed deletion changes your Photos library and may sync through iCloud Photos.</p><p>${cta}</p><p class="small">For Offshot ${VERSION} on iPhone. <a href="faq.html">Read the FAQ</a> · <a href="support.html">Get help</a></p></article>`
   },
   {
     file:'faq.html',title:'Offshot FAQ — Screenshot Cleanup, Search & Privacy',
@@ -94,7 +96,7 @@ pages.push({file:'privacy.html',title:'Offshot Privacy Policy — Screenshots, A
 for (const p of pages) {
   const graph = [{'@type':'WebPage','@id':url(p.file)+'#page',url:url(p.file),name:p.title,description:p.description,inLanguage:'en-US',dateModified:UPDATED,about:{'@id':BASE+'#app'},isPartOf:{'@id':BASE+'#website'}},...(p.schema||[])];
   if (p.file === 'index.html') graph.push({'@type':'WebSite','@id':BASE+'#website',name:'Offshot',url:BASE,inLanguage:'en-US'});
-  if (p.file !== 'index.html') graph.push({'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Offshot',item:BASE},{'@type':'ListItem',position:2,name:p.title.split(' — ')[0],item:url(p.file)}]});
+  if (p.file !== 'index.html') graph.push({'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Offshot',item:BASE},{'@type':'ListItem',position:2,name:p.title.split(/ [—|] /)[0],item:url(p.file)}]});
   const html = `<!doctype html>
 <html lang="en-US">
 <head>
@@ -130,4 +132,21 @@ ${p.file === 'index.html' ? `  <meta name="google-site-verification" content="${
   writeFileSync(resolve(out,p.file),html);
 }
 writeFileSync(resolve(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map(p=>`  <url><loc>${url(p.file)}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
+// Plain-text summary for answer engines and LLM crawlers; mirrors visible page content only.
+writeFileSync(resolve(out,'llms.txt'),`# Offshot - Screenshot Cleaner
+
+> Offshot is an iPhone screenshot cleaner and organizer (iOS 17.0 or later, U.S. App Store, English). It organizes screenshots with folders, tags and notes, searches text recognized on device, and deletes only screenshots the user selects and confirms through Photos. Free download; optional one-time Lifetime Ad Removal purchase, not a subscription. No Offshot account is required. Current version: ${VERSION}.
+
+## Pages
+
+${pages.map(p=>`- [${p.title}](${url(p.file)}): ${p.description}`).join('\n')}
+
+## App Store
+
+- [Offshot on the App Store](${STORE})
+
+## Key facts
+
+${questions.map(([q,a])=>`- ${q} ${a}`).join('\n')}
+`);
 console.log(`Built ${pages.length} static, script-independent Offshot pages and sitemap.`);

@@ -90,3 +90,20 @@ and text-search guides. Together with the previously accepted homepage request,
 four priority pages are now in the crawl queue. Sitemap status remains Couldn't
 fetch; the actual registered sitemap URL is correct. Public indexing and rankings
 remain unverified; no Google-side completion is claimed.
+
+
+## Follow-through: 2026-09-23 18:40 UTC (1.1.1 approved)
+
+App Store Connect API (read-only) reports 1.1.1 `READY_FOR_SALE` with submission
+`bdd43ea9-...` `COMPLETE`; the approved subtitle/keywords/description are now live.
+The public iTunes lookup still returned 1.1 at check time (Apple CDN lag).
+
+Site changes:
+- `softwareVersion` and visible guide footers now read 1.1.1 via one `VERSION`
+  constant in the builder; the FAQ availability answer no longer names a version.
+- Fixed BreadcrumbList names for pages whose titles use ` | ` (previously the whole
+  title including "| Offshot" was used as the crumb name).
+- Added `screenshot-cleaner/llms.txt`, generated from the same page titles,
+  descriptions and visible FAQ answers (no extra claims). Added publisher/inLanguage
+  to the SoftwareApplication node.
+- Tests extended: breadcrumb names, llms.txt lists every canonical URL and the store link.
