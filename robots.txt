@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /scripts/
+Disallow: /source/
+Disallow: /docs/
+
+Sitemap: https://mikey92.github.io/screenshot-cleaner/sitemap.xml
