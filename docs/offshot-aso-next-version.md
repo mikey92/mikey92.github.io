@@ -1,10 +1,26 @@
-# Offshot ASO: next-version candidate (not live)
+# Offshot ASO: version 1.1.1 (build 10)
 
-Prepared 2026-09-23 for the US English listing. This is a keyword-relevance proposal,
-not measured search-volume evidence. Do not create an app version, change pricing,
-change regions, or submit a build merely to apply this file.
+Updated 2026-09-23 for the US English listing after the user explicitly requested
+full implementation. Subtitle, keywords, description and promotional text are now
+saved in App Store Connect for version 1.1.1. This supersedes the earlier hold on
+creating a version. Keyword selection is relevance-based, not measured search-volume
+evidence. Prices, regions and app behavior are unchanged.
 
-## Metadata for the next approved release
+## Submission verified
+
+- App Store state at 2026-09-23 05:32 UTC: `WAITING_FOR_REVIEW`.
+- Version/build: `1.1.1 (10)`; release policy: `AFTER_APPROVAL`.
+- Submission: `bdd43ea9-9b69-4ffe-aa54-b2b3f9df5442`.
+- Build: `d2721467-853e-4dbd-8f09-bc52658709f0`; Apple processing: `VALID`.
+- Approved source manifest: 113 files unchanged; regression tests: 56 passed.
+- Signing, provisioning, runtime settings, privacy manifests and approved white
+  icon were verified. Only version/build overrides changed the binary release.
+- IPA SHA-256: `34e1d95718b6ee679f68d17c5d722830420a64de8a9a02f62e3e4b25c7c46eb3`.
+- Existing public version 1.1 remains available. Do not advertise 1.1.1 as live until
+  Apple approves/releases it. Project defaults still contain build 9; future uploads
+  must use a new build number above 10, not reuse a consumed build number.
+
+## Saved metadata
 
 - Name (keep current): `Offshot - Screenshot Cleaner`
 - Subtitle: `Organize & search saved shots`
@@ -15,7 +31,7 @@ reviews. The current title carries the main "screenshot cleaner" intent; the sub
 adds organization/search. Keywords add other supported workflows without duplicating
 those fields. Reassess using actual App Store acquisition data after launch.
 
-## Proposed description
+## Saved description
 
 Find the screenshot you saved. Offshot helps you organize iPhone screenshots, search
 the text inside them, and review what to keep before you delete.
@@ -56,10 +72,18 @@ Promotional text (saved through App Store Connect on 2026-09-23):
 > Find the screenshot you saved. Organize with folders, tags and notes, search text on device, and delete only what you choose. No app account required.
 
 This is conversion-focused copy. Apple explicitly states that promotional text does
-not affect App Store search ranking. Title/subtitle/keyword changes remain pending
-the next version's permitted metadata workflow and review.
+not affect App Store search ranking. The title is unchanged; new subtitle, keywords
+and description are saved for 1.1.1 and require Apple review before public release.
 
 ## Measurement and indexing
+
+Search Console ownership is verified. Home, FAQ, deletion guide and text-search
+guide indexing requests were accepted into Google's priority crawl queue. The
+sitemap report still says `Couldn't fetch` with zero discovered pages even though
+the registered URL is correct, HTTP/XML checks pass and Google's live sitemap test
+reported a successful fetch. This discrepancy is unresolved; accepted requests are
+not evidence of indexing or guaranteed ranking. Do not repeatedly resubmit the same
+URLs. No sitemap read/indexing success is claimed.
 
 - Confirm all public page URLs and sitemap return HTTP 200 after Pages deployment.
 - Verify `https://mikey92.github.io/screenshot-cleaner/` as a URL-prefix property in

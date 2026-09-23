@@ -73,3 +73,20 @@ Do not request indexing of the XML sitemap itself or repeatedly submit the same 
 - https://developers.google.com/search/docs/appearance/ai-features
 - https://support.google.com/webmasters/answer/7451001?hl=en
 - https://developer.apple.com/app-store/search/
+
+
+## Follow-through: 2026-09-23 05:32 UTC
+
+The earlier pending-ASO hold is superseded by the user's request to implement all
+improvements. Version 1.1.1 (build 10) now contains the saved subtitle, keywords,
+description and promotional text and has been submitted to Apple. UI and API both
+confirm WAITING_FOR_REVIEW with AFTER_APPROVAL automatic release. Submission ID:
+`bdd43ea9-9b69-4ffe-aa54-b2b3f9df5442`. See `offshot-aso-next-version.md` for exact
+metadata and verification evidence. Tests: 56 passing; approved source: 113 files
+unchanged. No app behavior, price, region, purchase or tracking changes.
+
+Google additionally accepted individual indexing requests for FAQ and both cleanup
+and text-search guides. Together with the previously accepted homepage request,
+four priority pages are now in the crawl queue. Sitemap status remains Couldn't
+fetch; the actual registered sitemap URL is correct. Public indexing and rankings
+remain unverified; no Google-side completion is claimed.
