@@ -17,7 +17,7 @@
   <p>Unreferenced assets, broken references, leftover redirectors, naming drift, oversized textures and Blueprints that no longer compile. From the editor menu, from CI, or from your AI agent over MCP.</p>
   <a class="button" href="https://github.com/mikey92/ue-project-audit">Free Lite version on GitHub</a>
 </section>
-<figure><img src="media/report.png" width="1920" height="1080" alt="Project Audit HTML report with summary cards and the assets each check found"><figcaption>The HTML report from Tools &gt; Project Audit &gt; Open audit report.</figcaption></figure>
+<figure><img src="media/report.jpg" width="1920" height="1080" alt="Project Audit HTML report with summary cards and the assets each check found"><figcaption>The HTML report from Tools &gt; Project Audit &gt; Open audit report.</figcaption></figure>
 <section class="features" aria-label="Features">
   <div><h2>Six checks</h2><p>Unreferenced assets, missing references, redirectors, naming conventions, texture budgets per folder, broken Blueprints.</p></div>
   <div><h2>One-click fixes</h2><p>Fix redirectors, rename to convention with every reference updated, quarantine unused assets instead of deleting them. Every fix previews first.</p></div>
@@ -44,7 +44,7 @@
 <p>Requires Unreal Engine 5.8 on Windows, macOS or Linux. Editor only: nothing ships in your game.</p>
 
 <h2 id="editor">Editor menu</h2>
-<figure><img src="media/menu.png" width="1920" height="1080" alt="Tools menu with the Project Audit submenu open"></figure>
+<figure><img src="media/menu.jpg" width="1920" height="1080" alt="Tools menu with the Project Audit submenu open"></figure>
 <ul>
   <li><strong>Open audit report</strong>: runs every check on <code>/Game</code> and opens the HTML report in your browser.</li>
   <li><strong>Open audit report (compile Blueprints)</strong>: also compiles every Blueprint. Slower on big projects.</li>
@@ -52,7 +52,7 @@
   <li><strong>Rename to naming convention...</strong>: adds the expected prefix (<code>RustyMetal</code> → <code>M_RustyMetal</code>) and updates every reference.</li>
   <li><strong>Quarantine unreferenced assets...</strong>: moves them to <code>/Game/_Quarantine</code>, keeping the folder layout. Play-test, then delete the folder.</li>
 </ul>
-<figure><img src="media/rename-preview.png" width="1920" height="1080" alt="Rename to naming convention dialog listing the planned renames"><figcaption>Every fix lists what will change and waits for Yes.</figcaption></figure>
+<figure><img src="media/rename-preview.jpg" width="1920" height="1080" alt="Rename to naming convention dialog listing the planned renames"><figcaption>Every fix lists what will change and waits for Yes.</figcaption></figure>
 <p>Fixes save the changed assets. Commit to source control first so you can revert.</p>
 
 <h2 id="rules">Project rules</h2>
@@ -93,7 +93,7 @@
   <tr><td>2</td><td>The audit could not run</td></tr>
 </table>
 <p>Output: <code>report.html</code>, <code>report.json</code>, <code>junit.xml</code>. Point your CI's test report step (Jenkins, GitHub Actions, GitLab, TeamCity) at <code>junit.xml</code>.</p>
-<figure><img src="media/ci.png" width="1920" height="1080" alt="Terminal running the ProjectAudit commandlet and failing with exit code 1"></figure>
+<figure><img src="media/ci.jpg" width="1920" height="1080" alt="Terminal running the ProjectAudit commandlet and failing with exit code 1"></figure>
 
 <h2 id="mcp">MCP (AI agents)</h2>
 <p>Enable <strong>Model Context Protocol</strong> and <strong>All Toolsets</strong> too (both Experimental in 5.8), then in the editor console:</p>
@@ -101,7 +101,7 @@
 ModelContextProtocol.GenerateClientConfig ClaudeCode</pre>
 <p>Tools (toolset <code>project_audit_pro.toolset.ProjectAuditProTools</code>): <code>audit_project</code>, <code>find_unreferenced_assets</code>, <code>find_missing_references</code>, <code>find_redirectors</code>, <code>check_naming</code>, <code>check_textures</code>, <code>find_broken_blueprints</code>, <code>fix_redirectors</code>, <code>rename_to_convention</code>, <code>quarantine_unreferenced</code>, <code>write_report</code>, <code>get_rules</code>. Every argument is optional; <code>path</code> defaults to <code>/Game</code>.</p>
 <p>Ask: <em>“Audit /Game, show me what you would rename, then fix the redirectors.”</em> Fix tools only preview unless the agent passes <code>apply: true</code>.</p>
-<figure><img src="media/mcp.png" width="1920" height="1080" alt="Two MCP tool calls and their JSON results"></figure>
+<figure><img src="media/mcp.jpg" width="1920" height="1080" alt="Two MCP tool calls and their JSON results"></figure>
 <p><strong>Port 8000 already taken?</strong> <code>ModelContextProtocol.StartServer</code> without a port always uses 8000 in 5.8. Pass a port as above and point your client at <code>http://127.0.0.1:18765/mcp</code>.</p>
 
 <h2 id="python">Python</h2>
