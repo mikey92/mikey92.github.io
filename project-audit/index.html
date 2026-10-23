@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Audit Pro for Unreal Engine: Documentation</title>
+  <meta name="description" content="Project Audit Pro finds and fixes unreferenced assets, missing references, redirectors, naming drift, oversized textures and broken Blueprints in Unreal Engine 5.8, from the editor, CI or AI agents over MCP.">
+  <link rel="canonical" href="https://mikey92.github.io/project-audit/">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body><a class="skip-link" href="#main">Skip to content</a><div class="shell">
+<nav aria-label="Main navigation"><a class="brand" href="./"><img src="icon.png" width="36" height="36" alt="">Project Audit Pro</a><div class="nav-links"><a href="#install">Docs</a><a href="support.html">Support</a></div></nav>
+<main id="main">
+<section class="hero">
+  <h1>Find and fix what rots in an Unreal project</h1>
+  <p>Unreferenced assets, broken references, leftover redirectors, naming drift, oversized textures and Blueprints that no longer compile. From the editor menu, from CI, or from your AI agent over MCP.</p>
+  <a class="button" href="https://github.com/mikey92/ue-project-audit">Free Lite version on GitHub</a>
+</section>
+<figure><img src="media/report.png" width="1920" height="1080" alt="Project Audit HTML report with summary cards and the assets each check found"><figcaption>The HTML report from Tools &gt; Project Audit &gt; Open audit report.</figcaption></figure>
+<section class="features" aria-label="Features">
+  <div><h2>Six checks</h2><p>Unreferenced assets, missing references, redirectors, naming conventions, texture budgets per folder, broken Blueprints.</p></div>
+  <div><h2>One-click fixes</h2><p>Fix redirectors, rename to convention with every reference updated, quarantine unused assets instead of deleting them. Every fix previews first.</p></div>
+  <div><h2>CI gates</h2><p>A commandlet writes HTML, JSON and JUnit reports and fails the build when a check goes over your limit.</p></div>
+  <div><h2>12 MCP tools</h2><p>Claude Code, Codex, Cursor or any MCP client can audit and fix the project through Unreal 5.8's MCP plugin.</p></div>
+</section>
+
+<nav class="toc" aria-label="Contents"><ul>
+  <li><a href="#install">Install</a></li>
+  <li><a href="#editor">Editor menu</a></li>
+  <li><a href="#rules">Project rules</a></li>
+  <li><a href="#ci">CI</a></li>
+  <li><a href="#mcp">MCP (AI agents)</a></li>
+  <li><a href="#python">Python</a></li>
+  <li><a href="#notes">Notes and limits</a></li>
+</ul></nav>
+
+<h2 id="install">Install</h2>
+<ol>
+  <li>Install the plugin from Fab to the engine, or copy it to <code>YourProject/Plugins/ProjectAuditPro</code>.</li>
+  <li>Enable <strong>Project Audit Pro</strong> in <em>Edit &gt; Plugins</em> and restart the editor. Python Editor Script Plugin and Editor Scripting Utilities turn on with it.</li>
+  <li>Open <strong>Tools &gt; Project Audit</strong>.</li>
+</ol>
+<p>Requires Unreal Engine 5.8 on Windows, macOS or Linux. Editor only: nothing ships in your game.</p>
+
+<h2 id="editor">Editor menu</h2>
+<figure><img src="media/menu.png" width="1920" height="1080" alt="Tools menu with the Project Audit submenu open"></figure>
+<ul>
+  <li><strong>Open audit report</strong>: runs every check on <code>/Game</code> and opens the HTML report in your browser.</li>
+  <li><strong>Open audit report (compile Blueprints)</strong>: also compiles every Blueprint. Slower on big projects.</li>
+  <li><strong>Fix redirectors...</strong>: repoints references and deletes the redirectors.</li>
+  <li><strong>Rename to naming convention...</strong>: adds the expected prefix (<code>RustyMetal</code> → <code>M_RustyMetal</code>) and updates every reference.</li>
+  <li><strong>Quarantine unreferenced assets...</strong>: moves them to <code>/Game/_Quarantine</code>, keeping the folder layout. Play-test, then delete the folder.</li>
+</ul>
+<figure><img src="media/rename-preview.png" width="1920" height="1080" alt="Rename to naming convention dialog listing the planned renames"><figcaption>Every fix lists what will change and waits for Yes.</figcaption></figure>
+<p>Fixes save the changed assets. Commit to source control first so you can revert.</p>
+
+<h2 id="rules">Project rules</h2>
+<p>Copy <code>ProjectAudit.example.json</code> from the plugin folder to <code>YourProject/Config/ProjectAudit.json</code> and edit it. Anything you leave out keeps the default.</p>
+<pre>{
+  "naming": {
+    "prefixes": { "Blueprint": "BP_", "SoundWave": "SW_", "CurveFloat": "" },
+    "ignore_paths": ["/Game/ThirdParty", "/Game/Megascans"]
+  },
+  "unreferenced": { "ignore_paths": ["/Game/Maps", "/Game/Data"] },
+  "textures": {
+    "default_max_size": 4096,
+    "budgets": [
+      { "path": "/Game/UI", "max_size": 1024 },
+      { "path": "/Game/Characters/Hero", "max_size": 8192 }
+    ],
+    "require_power_of_two": true
+  },
+  "quarantine_path": "/Game/_Quarantine",
+  "fail_on": {
+    "missing_references": 0, "broken_blueprints": 0, "redirectors": 0,
+    "naming": 50, "textures": null, "unreferenced_assets": null
+  }
+}</pre>
+<ul>
+  <li><code>naming.prefixes</code>: class name → prefix. Set a class to <code>""</code> to stop checking it.</li>
+  <li><code>naming.ignore_paths</code>, <code>unreferenced.ignore_paths</code>: folders to skip (marketplace packs, data loaded by path).</li>
+  <li><code>textures.budgets</code>: max width/height per folder; the most specific folder wins.</li>
+  <li><code>fail_on</code>: the most findings a check may have before CI fails. <code>null</code> reports without failing.</li>
+</ul>
+
+<h2 id="ci">CI</h2>
+<pre>UnrealEditor-Cmd MyGame.uproject -run=ProjectAudit -path=/Game -out=Saved/ProjectAudit -blueprints -unattended -nullrhi</pre>
+<table>
+  <tr><th>Exit code</th><th>Meaning</th></tr>
+  <tr><td>0</td><td>Every gated check is within its limit</td></tr>
+  <tr><td>1</td><td>At least one check is over its limit</td></tr>
+  <tr><td>2</td><td>The audit could not run</td></tr>
+</table>
+<p>Output: <code>report.html</code>, <code>report.json</code>, <code>junit.xml</code>. Point your CI's test report step (Jenkins, GitHub Actions, GitLab, TeamCity) at <code>junit.xml</code>.</p>
+<figure><img src="media/ci.png" width="1920" height="1080" alt="Terminal running the ProjectAudit commandlet and failing with exit code 1"></figure>
+
+<h2 id="mcp">MCP (AI agents)</h2>
+<p>Enable <strong>Model Context Protocol</strong> and <strong>All Toolsets</strong> too (both Experimental in 5.8), then in the editor console:</p>
+<pre>ModelContextProtocol.StartServer 18765
+ModelContextProtocol.GenerateClientConfig ClaudeCode</pre>
+<p>Tools (toolset <code>project_audit_pro.toolset.ProjectAuditProTools</code>): <code>audit_project</code>, <code>find_unreferenced_assets</code>, <code>find_missing_references</code>, <code>find_redirectors</code>, <code>check_naming</code>, <code>check_textures</code>, <code>find_broken_blueprints</code>, <code>fix_redirectors</code>, <code>rename_to_convention</code>, <code>quarantine_unreferenced</code>, <code>write_report</code>, <code>get_rules</code>. Every argument is optional; <code>path</code> defaults to <code>/Game</code>.</p>
+<p>Ask: <em>“Audit /Game, show me what you would rename, then fix the redirectors.”</em> Fix tools only preview unless the agent passes <code>apply: true</code>.</p>
+<figure><img src="media/mcp.png" width="1920" height="1080" alt="Two MCP tool calls and their JSON results"></figure>
+<p><strong>Port 8000 already taken?</strong> <code>ModelContextProtocol.StartServer</code> without a port always uses 8000 in 5.8. Pass a port as above and point your client at <code>http://127.0.0.1:18765/mcp</code>.</p>
+
+<h2 id="python">Python</h2>
+<pre>from project_audit_pro import audit, fixes, ci
+print(audit.to_json(audit.run_all("/Game")))
+fixes.fix_redirectors("/Game", apply=False)     # preview
+ci.write_report("/Game")                        # Saved/ProjectAudit/report.html</pre>
+
+<h2 id="notes">Notes and limits</h2>
+<ul>
+  <li>Unreferenced does not mean unused: assets loaded only from config, by soft paths built at runtime or by Primary Asset rules can still appear. Add those folders to <code>unreferenced.ignore_paths</code>, and quarantine instead of deleting.</li>
+  <li>Maps are entry points and never reported as unreferenced.</li>
+  <li>Compiling Blueprints loads each one, so that check is slower on big projects.</li>
+  <li>Tested on Unreal Engine 5.8.4. The MCP plugin is Experimental in 5.8; everything else works without it.</li>
+</ul>
+<p>Questions or a bug? See <a href="support.html">Support</a>.</p>
+</main>
+<footer><p><strong>Project Audit Pro</strong> · Project health checks and fixes for Unreal Engine</p><div class="footer-links"><a href="./">Docs</a><a href="support.html">Support</a><a href="https://github.com/mikey92/ue-project-audit">Lite on GitHub</a></div><p class="small">By BCD · Updated <time datetime="2026-10-23">October 23, 2026</time></p></footer>
+</div></body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Audit Pro Support</title>
+  <meta name="description" content="Help with Project Audit Pro for Unreal Engine: menu missing, MCP tools, CI exit codes, false positives and reporting a problem.">
+  <link rel="canonical" href="https://mikey92.github.io/project-audit/support.html">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body><a class="skip-link" href="#main">Skip to content</a><div class="shell">
+<nav aria-label="Main navigation"><a class="brand" href="./"><img src="icon.png" width="36" height="36" alt="">Project Audit Pro</a><div class="nav-links"><a href="./#install">Docs</a><a href="support.html">Support</a></div></nav>
+<main id="main">
+<p class="eyebrow">Help with Project Audit Pro</p>
+<h1>Support</h1>
+<p class="lead">Start with the topics below, or send a report if something isn’t working.</p>
+
+<h2>Tools &gt; Project Audit is missing</h2>
+<p>Check that <strong>Project Audit Pro</strong> and <strong>Python Editor Script Plugin</strong> are enabled in <em>Edit &gt; Plugins</em>, then restart the editor. The Output Log shows <code>Registering Toolset project_audit_pro...</code> when the plugin loaded.</p>
+
+<h2>My agent can’t see the tools</h2>
+<p>Enable <strong>Model Context Protocol</strong> and <strong>All Toolsets</strong>, restart, run <code>ModelContextProtocol.StartServer 18765</code> in the editor console and point the client at <code>http://127.0.0.1:18765/mcp</code>. With tool search on, the tools are reached through <code>call_tool</code> with the toolset name <code>project_audit_pro.toolset.ProjectAuditProTools</code>.</p>
+
+<h2>An asset is reported unreferenced but the game uses it</h2>
+<p>Assets loaded by config, by soft paths built at runtime or by Primary Asset rules have no reference the Asset Registry can see. Add their folder to <code>unreferenced.ignore_paths</code> in <code>Config/ProjectAudit.json</code>. Quarantine instead of deleting, play-test, then delete the quarantine folder.</p>
+
+<h2>CI fails on something we accept</h2>
+<p>Raise that check’s limit in <code>fail_on</code>, or set it to <code>null</code> to report it without failing. Exit code 2 means the audit could not run; the log above it says why.</p>
+
+<h2>Undo a fix</h2>
+<p>Fixes save the assets they change. Revert them in source control. That is why every fix shows a preview and asks first.</p>
+
+<h2>Report a problem</h2>
+<p>Include your engine version, operating system, what you ran and the Output Log lines with <code>ProjectAudit</code> in them.</p>
+<p><a class="button" href="mailto:fdmk.noreply@gmail.com?subject=Project%20Audit%20Pro%20support">Email support</a> <a class="button secondary" href="https://github.com/mikey92/mikey92.github.io/issues/new?title=Project%20Audit%20Pro%20support">Open a support request</a></p>
+<aside class="notice"><p><strong>The GitHub support tracker is public.</strong> Don’t post order numbers, account details or files from a project you can’t share.</p></aside>
+</main>
+<footer><p><strong>Project Audit Pro</strong> · Project health checks and fixes for Unreal Engine</p><div class="footer-links"><a href="./">Docs</a><a href="support.html">Support</a><a href="https://github.com/mikey92/ue-project-audit">Lite on GitHub</a></div><p class="small">By BCD · Updated <time datetime="2026-10-23">October 23, 2026</time></p></footer>
+</div></body>
+</html>
