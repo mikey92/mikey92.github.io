@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Map for AI Agents: Unreal Engine MCP Tools</title>
+  <meta name="description" content="Project Map gives AI agents compact Unreal Engine 5.8 project context over MCP: a one-call overview, asset search, dependency graphs, and short Blueprint and material summaries.">
+  <link rel="canonical" href="https://mikey92.github.io/project-map/">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body><a class="skip-link" href="#main">Skip to content</a><div class="shell">
+<nav aria-label="Main navigation"><a class="brand" href="./"><img src="icon.png" width="36" height="36" alt="">Project Map</a><div class="nav-links"><a href="#install">Docs</a><a href="#support">Support</a></div></nav>
+<main id="main">
+<section class="hero">
+  <h1>Your AI agent, oriented in one call</h1>
+  <p>Unreal 5.8's MCP tools describe assets in full, and every session starts cold. Project Map answers the questions an agent asks first, in a few hundred tokens.</p>
+</section>
+<section class="features" aria-label="Tools">
+  <div><h2>project_overview</h2><p>Engine, C++ modules, plugins, default map and game mode, maps, asset counts per folder and class.</p></div>
+  <div><h2>find_assets</h2><p>Every asset whose name matches, optionally of one class.</p></div>
+  <div><h2>asset_dependencies</h2><p>What an asset uses and what uses it, up to four hops. Check before renaming or deleting.</p></div>
+  <div><h2>blueprint_summary</h2><p>Parent, interfaces, components, variables, functions and graphs, without the node dump.</p></div>
+  <div><h2>material_summary</h2><p>Parent, parameters with values and textures, without the expression graph.</p></div>
+</section>
+
+<h2 id="install">Install</h2>
+<ol>
+  <li>Install the plugin from Fab to the engine, or copy it to <code>YourProject/Plugins/ProjectMap</code>.</li>
+  <li>Enable <strong>Project Map for AI Agents</strong>, <strong>Model Context Protocol</strong> and <strong>All Toolsets</strong> in <em>Edit &gt; Plugins</em>, then restart.</li>
+  <li>In the editor console: <code>ModelContextProtocol.StartServer 18765</code>, then <code>ModelContextProtocol.GenerateClientConfig ClaudeCode</code>, or point any MCP client at <code>http://127.0.0.1:18765/mcp</code>.</li>
+  <li>Tell your agent: <em>“Call project_overview first, then use find_assets and asset_dependencies before you change anything.”</em></li>
+</ol>
+<p>The toolset is <code>project_map.toolset.ProjectMapTools</code>; with tool search on, call it through <code>call_tool</code>. Every argument except the asset path is optional.</p>
+
+<h2>Python</h2>
+<pre>from project_map import context
+print(context.to_json(context.project_overview()))
+print(context.to_json(context.asset_dependencies("/Game/Characters/BP_Hero", "both", 2)))</pre>
+
+<h2>Notes</h2>
+<ul>
+  <li>Read-only: nothing is renamed, moved, saved or deleted.</li>
+  <li>Dependencies come from the Asset Registry: assets loaded only by config or by soft paths built at runtime have no edge.</li>
+  <li><code>blueprint_summary</code> and <code>material_summary</code> load the asset they describe.</li>
+  <li>Requires Unreal Engine 5.8. The MCP plugin is Experimental in 5.8.</li>
+</ul>
+
+<h2 id="support">Support</h2>
+<p>Include your engine version, operating system, the tool you called with its arguments, and the Output Log lines with <code>ProjectMap</code> in them.</p>
+<p><a class="button" href="mailto:fdmk.noreply@gmail.com?subject=Project%20Map%20support">Email support</a> <a class="button secondary" href="https://github.com/mikey92/mikey92.github.io/issues/new?title=Project%20Map%20support">Open a support request</a></p>
+<aside class="notice"><p><strong>The GitHub support tracker is public.</strong> Don’t post order numbers, account details or files from a project you can’t share.</p></aside>
+<p>Also by us: <a href="../project-audit/">Project Audit Pro</a> finds and fixes unused assets, broken references, redirectors and naming drift.</p>
+</main>
+<footer><p><strong>Project Map for AI Agents</strong> · Compact project context for Unreal Engine MCP</p><div class="footer-links"><a href="./">Docs</a><a href="#support">Support</a><a href="../project-audit/">Project Audit Pro</a></div><p class="small">By BCD · Updated <time datetime="2026-10-24">October 24, 2026</time></p></footer>
+</div></body>
+</html>
