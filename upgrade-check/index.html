@@ -15,6 +15,7 @@
 <section class="hero">
   <h1>Know what breaks before you upgrade the engine</h1>
   <p>Upgrade Check compares your project with the Unreal Engine version you want to move to, using that engine's own headers and plugins, and tells you which lines will not compile, which plugins block the move and which Blueprint nodes need attention. Nothing in the project changes.</p>
+  <a class="button" href="https://github.com/mikey92/ue-upgrade-check-lite">Free command-line version on GitHub</a>
 </section>
 <figure><img src="media/report.jpg" width="1920" height="1080" alt="Upgrade Check report for a UE 5.6 project checked against UE 5.8: C++ lines that will not compile, plugins to fix and new deprecation warnings"><figcaption>The report for a UE 5.6 project checked against UE 5.8.</figcaption></figure>
 <section class="features" aria-label="What it checks">
@@ -45,7 +46,7 @@
 <p>Output: <code>report.html</code>, <code>report.json</code> and <code>junit.xml</code> in <code>Saved/UpgradeCheck</code>.</p>
 
 <h2 id="cli">Without the editor</h2>
-<p>C++, headers and plugins can be checked with plain Python 3.9 or later:</p>
+<p>C++, headers and plugins can be checked with plain Python 3.9 or later. The same check is free as <a href="https://github.com/mikey92/ue-upgrade-check-lite">Upgrade Check Lite</a>.</p>
 <pre>python3 Plugins/UpgradeCheck/Tools/check_upgrade.py --project MyGame.uproject --to 5.8 [--from 5.6]</pre>
 <figure><img src="media/findings.jpg" width="1920" height="1080" alt="C++ and Blueprint findings with the engine's replacement hints"></figure>
 <figure><img src="media/ci.jpg" width="1920" height="1080" alt="Terminal running the UpgradeCheck commandlet and check_upgrade.py on a UE 5.6 project against UE 5.8"></figure>
