@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upgrade Check for Unreal Engine: Documentation</title>
+  <meta name="description" content="Upgrade Check finds what breaks before you move an Unreal Engine project to a newer version: C++ that uses removed or deprecated APIs, headers that are gone, plugins the new engine lacks, and Blueprint nodes to update.">
+  <link rel="canonical" href="https://mikey92.github.io/upgrade-check/">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body><a class="skip-link" href="#main">Skip to content</a><div class="shell">
+<nav aria-label="Main navigation"><a class="brand" href="./"><img src="icon.png" width="36" height="36" alt="">Upgrade Check</a><div class="nav-links"><a href="#install">Docs</a><a href="#support">Support</a></div></nav>
+<main id="main">
+<section class="hero">
+  <h1>Know what breaks before you upgrade the engine</h1>
+  <p>Upgrade Check compares your project with the Unreal Engine version you want to move to, using that engine's own headers and plugins, and tells you which lines will not compile, which plugins block the move and which Blueprint nodes need attention. Nothing in the project changes.</p>
+</section>
+<figure><img src="media/report.jpg" width="1920" height="1080" alt="Upgrade Check report for a UE 5.6 project checked against UE 5.8: C++ lines that will not compile, plugins to fix and new deprecation warnings"><figcaption>The report for a UE 5.6 project checked against UE 5.8.</figcaption></figure>
+<section class="features" aria-label="What it checks">
+  <div><h2>C++ that will not compile</h2><p>APIs your current engine deprecated and the new one deleted, with the engine's own replacement hint.</p></div>
+  <div><h2>Headers</h2><p>Includes the new engine no longer has, or marks deprecated.</p></div>
+  <div><h2>Plugins</h2><p>Plugins the new engine dropped or folded into the engine, Fab plugins installed to the old engine only, and project plugins that need a rebuild.</p></div>
+  <div><h2>Blueprints</h2><p>Nodes that call a C++ function or use a C++ variable the new engine removed or deprecated.</p></div>
+  <div><h2>New warnings</h2><p>Everything deprecated after your version, so the follow-up work is planned, not discovered.</p></div>
+</section>
+
+<h2 id="install">Install</h2>
+<ol>
+  <li>Install the version you are moving <strong>to</strong> with the Epic Games Launcher (or have a source build). The check reads its <code>Engine/Source</code> and <code>Engine/Plugins</code>.</li>
+  <li>Install Upgrade Check to your <strong>current</strong> engine from Fab, or copy it to <code>YourProject/Plugins/UpgradeCheck</code>.</li>
+  <li>Enable <strong>Upgrade Check</strong> in <em>Edit &gt; Plugins</em> and restart the editor.</li>
+  <li><em>Tools &gt; Upgrade Check &gt; Check upgrade to UE 5.x</em>. There is one entry per newer engine installed.</li>
+</ol>
+<p>The first run reads both engines' headers (10 to 30 seconds each) and caches them in <code>Saved/UpgradeCheck/cache</code>. The plugin runs in Unreal Engine 5.6, 5.7 and 5.8 on Windows, macOS and Linux; the target can be any later version on the machine. Editor only: nothing ships in your game.</p>
+
+<h2 id="ci">CI</h2>
+<pre>UnrealEditor-Cmd MyGame.uproject -run=UpgradeCheck -to=5.8 [-existing] [-noblueprints] [-failon=blocking|warnings|never] -unattended -nullrhi</pre>
+<table>
+  <tr><th>Exit code</th><th>Meaning</th></tr>
+  <tr><td>0</td><td>Ready for the target engine</td></tr>
+  <tr><td>1</td><td>Work needed: a line that will not compile, a blocking plugin, or a Blueprint node that uses a removed API (with <code>-failon=warnings</code>, also new deprecations)</td></tr>
+  <tr><td>2</td><td>The check could not run</td></tr>
+</table>
+<p>Output: <code>report.html</code>, <code>report.json</code> and <code>junit.xml</code> in <code>Saved/UpgradeCheck</code>.</p>
+
+<h2 id="cli">Without the editor</h2>
+<p>C++, headers and plugins can be checked with plain Python 3.9 or later:</p>
+<pre>python3 Plugins/UpgradeCheck/Tools/check_upgrade.py --project MyGame.uproject --to 5.8 [--from 5.6]</pre>
+<figure><img src="media/findings.jpg" width="1920" height="1080" alt="C++ and Blueprint findings with the engine's replacement hints"></figure>
+<figure><img src="media/ci.jpg" width="1920" height="1080" alt="Terminal running the UpgradeCheck commandlet and check_upgrade.py on a UE 5.6 project against UE 5.8"></figure>
+
+<h2 id="reading">Reading the report</h2>
+<ul>
+  <li><strong>Removed in the target</strong>: deprecated in your current engine and no longer declared anywhere in the target. Expect a compile error; the message says what to use instead.</li>
+  <li><strong>Header gone or deprecated</strong>: the <code>#include</code> is not in the target engine, or the target marks it deprecated.</li>
+  <li><strong>Newly deprecated</strong>: compiles with a warning; plan to replace it.</li>
+  <li><strong>check</strong>: several engine types declare the name, so confirm the type before changing the line. Calls written as <code>UFoo::Bar</code> are matched to the right type, and names that hundreds of engine types use are only reported in that form.</li>
+  <li><strong>Now part of the engine</strong>: the plugin became an engine module. Remove it from the <code>.uproject</code> Plugins list.</li>
+</ul>
+
+<h2>Notes and limits</h2>
+<ul>
+  <li>The C++ check matches names, not compiled types, and ignores comments and strings.</li>
+  <li>APIs that changed signature without a deprecation are not detected; build in the new engine to confirm.</li>
+  <li>Blueprint checks load every Blueprint in <code>/Game</code> and in project plugins.</li>
+</ul>
+
+<h2 id="support">Support</h2>
+<p>Include your engine versions (from and to), operating system, and <code>Saved/UpgradeCheck/report.json</code> if you can share it.</p>
+<p><a class="button" href="mailto:fdmk.noreply@gmail.com?subject=Upgrade%20Check%20support">Email support</a> <a class="button secondary" href="https://github.com/mikey92/mikey92.github.io/issues/new?title=Upgrade%20Check%20support">Open a support request</a></p>
+<aside class="notice"><p><strong>The GitHub support tracker is public.</strong> Don’t post order numbers, account details or files from a project you can’t share.</p></aside>
+<p>Also by us: <a href="../project-audit/">Project Audit Pro</a> finds and fixes unused assets, broken references, redirectors and naming drift.</p>
+</main>
+<footer><p><strong>Upgrade Check</strong> · Engine upgrade readiness for Unreal Engine</p><div class="footer-links"><a href="./">Docs</a><a href="#support">Support</a><a href="../project-audit/">Project Audit Pro</a></div><p class="small">By BCD · Updated <time datetime="2026-10-25">October 25, 2026</time></p></footer>
+</div></body>
+</html>

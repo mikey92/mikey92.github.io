@@ -6,3 +6,4 @@ Disallow: /docs/
 Sitemap: https://mikey92.github.io/screenshot-cleaner/sitemap.xml
 Disallow: /project-audit/dl/
 Disallow: /project-map/dl/
+Disallow: /upgrade-check/dl/
