@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Permutation Audit for Unreal Engine: Documentation</title>
+  <meta name="description" content="Permutation Audit finds the materials and material instances that multiply shader compiles in Unreal Engine 5.6 to 5.8: static switch permutations, redundant overrides and usage flags no asset needs, with a one-click fix, CI gates and MCP tools.">
+  <link rel="canonical" href="https://mikey92.github.io/permutation-audit/">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body><a class="skip-link" href="#main">Skip to content</a><div class="shell">
+<nav aria-label="Main navigation"><a class="brand" href="./"><img src="icon.png" width="36" height="36" alt="">Permutation Audit</a><div class="nav-links"><a href="#install">Docs</a><a href="#support">Support</a></div></nav>
+<main id="main">
+<section class="hero">
+  <h1>Find what multiplies your shader compiles</h1>
+  <p>Every material instance that overrides a static switch compiles its own shaders, and every usage flag compiles the material again for another vertex factory. Permutation Audit shows which materials and instances cause it, and fixes the ones that cost you shaders for nothing.</p>
+</section>
+<figure><img src="media/report.jpg" width="1920" height="1080" alt="Permutation Audit report: materials ranked by estimated shader cost with permutation sets, instances and usage flags"><figcaption>Materials ranked by estimated cost.</figcaption></figure>
+<section class="features" aria-label="What it finds">
+  <div><h2>Static switch permutations</h2><p>Which instances compile their own shaders and why. Instances with identical static values are counted once.</p></div>
+  <div><h2>Redundant overrides</h2><p>Overrides with the value the parent already has. One click clears them: same look, shared shaders.</p></div>
+  <div><h2>Usage flags nobody needs</h2><p>Skeletal mesh, particle, Niagara, geometry collection, cache or groom flags no asset of that kind uses.</p></div>
+  <div><h2>CI gates</h2><p>Fail the build when a material grows too many permutation sets or a redundant override sneaks in.</p></div>
+  <div><h2>MCP tools</h2><p>Let Claude Code, Codex or Cursor audit and fix through Unreal 5.8's Model Context Protocol plugin.</p></div>
+</section>
+
+<h2 id="install">Install</h2>
+<ol>
+  <li>Install the plugin to the engine from Fab, or copy it to <code>YourProject/Plugins/PermutationAudit</code>.</li>
+  <li>Enable <strong>Permutation Audit</strong> in <em>Edit &gt; Plugins</em> and restart the editor.</li>
+  <li><em>Tools &gt; Permutation Audit &gt; Open permutation report</em>.</li>
+</ol>
+<p>Unreal Engine 5.6, 5.7 and 5.8 on Windows, macOS and Linux. Editor only: nothing ships in your game.</p>
+<figure><img src="media/findings.jpg" width="1920" height="1080" alt="Redundant static overrides, unneeded usage flags and instances with their own shaders"></figure>
+
+<h2 id="reading">Reading the report</h2>
+<ul>
+  <li><strong>Estimated shader maps</strong>: unique static permutation sets times one per vertex factory the usage flags add. A relative cost to rank materials, not an exact shader count.</li>
+  <li><strong>Instances that compile their own shaders</strong>: static switch overrides, base property or layer overrides, or a parent instance that already has its own. If many sets differ by one switch, a dynamic parameter or a separate master material is often cheaper.</li>
+  <li><strong>Redundant static overrides</strong>: <em>Tools &gt; Permutation Audit &gt; Clear redundant static overrides</em> previews, then clears and saves them.</li>
+  <li><strong>Usage flags</strong>: "likely unused" when no asset of that kind uses the material or its instances; "check" when a level or Blueprint references it and may assign it at runtime. Clear flags in the material's Usage section; "Automatically Set Usage in Editor" is what usually turns them on.</li>
+</ul>
+
+<h2 id="ci">CI</h2>
+<pre>UnrealEditor-Cmd MyGame.uproject -run=PermutationAudit [-path=/Game] [-maxsets=16] [-redundant=0] [-unused=0] -unattended -nullrhi</pre>
+<table>
+  <tr><th>Gate</th><th>Fails when</th></tr>
+  <tr><td><code>-maxsets</code></td><td>a material has more unique static permutation sets than this</td></tr>
+  <tr><td><code>-redundant</code></td><td>more instances than this have redundant static overrides</td></tr>
+  <tr><td><code>-unused</code></td><td>more usage flags than this are needed by no asset</td></tr>
+</table>
+<p><code>-1</code> turns a gate off. Exit code 0 within budget, 1 over, 2 could not run. Output: <code>report.html</code>, <code>report.json</code> and <code>junit.xml</code> in <code>Saved/PermutationAudit</code>.</p>
+<figure><img src="media/ci.jpg" width="1920" height="1080" alt="Commandlet failing a gate, and the MCP fix tool previewing redundant overrides"></figure>
+
+<h2 id="mcp">MCP (AI agents)</h2>
+<p>With <strong>Model Context Protocol</strong> and <strong>All Toolsets</strong> enabled (Experimental in 5.8): <code>permutation_audit</code>, <code>material_permutations</code> and <code>clear_redundant_overrides</code> (preview unless <code>apply: true</code>), in the toolset <code>permutation_audit.toolset.PermutationAuditTools</code>.</p>
+
+<h2>Shader Toolkit</h2>
+<p>UE 5.8 ships an Experimental Shader Toolkit that measures the shaders a cook produced. Permutation Audit works on the assets before a cook: it names the material settings and instances that cause permutations, fixes the redundant ones and gates CI, and it runs in 5.6 and 5.7 too. Use both.</p>
+
+<h2 id="support">Support</h2>
+<p>Include your engine version, operating system and <code>Saved/PermutationAudit/report.json</code> if you can share it.</p>
+<p><a class="button" href="mailto:fdmk.noreply@gmail.com?subject=Permutation%20Audit%20support">Email support</a> <a class="button secondary" href="https://github.com/mikey92/mikey92.github.io/issues/new?title=Permutation%20Audit%20support">Open a support request</a></p>
+<aside class="notice"><p><strong>The GitHub support tracker is public.</strong> Don’t post order numbers, account details or files from a project you can’t share.</p></aside>
+<p>Also by us: <a href="../project-audit/">Project Audit Pro</a> and <a href="../upgrade-check/">Upgrade Check</a>.</p>
+</main>
+<footer><p><strong>Permutation Audit</strong> · Shader permutation audit for Unreal Engine</p><div class="footer-links"><a href="./">Docs</a><a href="#support">Support</a><a href="../upgrade-check/">Upgrade Check</a></div><p class="small">By BCD · Updated <time datetime="2026-10-25">October 25, 2026</time></p></footer>
+</div></body>
+</html>
